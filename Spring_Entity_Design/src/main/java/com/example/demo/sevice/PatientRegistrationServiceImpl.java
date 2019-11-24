@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -57,5 +58,28 @@ public class PatientRegistrationServiceImpl implements PatientRegistrationServic
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public PatientRegistration getPatientLogindetails(String email) {
+		// TODO Auto-generated method stub
+		return patientRegistrationrepository.findByEmail(email);
+	
+	}
+	@Override
+	public boolean checkPass(String email, String password) {
+		PatientRegistration patientregistration =	getPatientLogindetails( email);
+		if(patientregistration!=null) {
+			if (BCrypt.checkpw(password, patientregistration.getPassword()))
+				return true;
+			else
+				return false;
+		}
+		else {
+			return false;
+		}
+		
+		
+		}
+		
 
 }
