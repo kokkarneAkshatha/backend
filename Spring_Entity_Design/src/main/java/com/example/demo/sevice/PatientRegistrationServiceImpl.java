@@ -2,6 +2,7 @@ package com.example.demo.sevice;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 import javax.transaction.Transactional;
 
@@ -29,6 +30,17 @@ public class PatientRegistrationServiceImpl implements PatientRegistrationServic
 	@Transactional
 	public PatientRegistration savePatientRegistration(PatientRegistration thePatientRegistration) {
 		// TODO Auto-generated method stub
+		String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+        StringBuilder salt = new StringBuilder();
+        Random rnd = new Random();
+        while (salt.length() < 6) { // length of the random string.
+            int index = (int) (rnd.nextFloat() * SALTCHARS.length());
+            salt.append(SALTCHARS.charAt(index));
+        }
+        String saltStr = salt.toString();
+        thePatientRegistration.setUserId(saltStr);
+        //theuser.setPid(saltStr);
+        System.out.print("saltStr");
 		return patientRegistrationrepository.save(thePatientRegistration);
 		
 	}

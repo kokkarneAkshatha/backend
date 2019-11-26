@@ -32,6 +32,11 @@ public class DoctorRegistrationController {
     public Optional<DoctorRegistration> findOne(@PathVariable("id") int id){
         return doctorRegistrationService.getDoctorRegistrationById(id);
     }
+    
+    @PostMapping(path = {"/doctorschedule"})
+    public List<DoctorRegistration> getschedule(@RequestBody DoctorRegistration doctor){
+    	return doctorRegistrationService.getDoctorSchedule(doctor.getBranch(), doctor.getSpecialist());
+    }
 
     @PutMapping("/doctorregister")
     public DoctorRegistration update(@RequestBody DoctorRegistration doctor){

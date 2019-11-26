@@ -58,6 +58,12 @@ public class PatientRegistrationController {
     public List<PatientRegistration> findAll(){
         return patientRegistrationService.getPatientRegistrations();
     }
+    @PostMapping("/findbyemail")
+    public PatientRegistration findLogin(@RequestBody PatientRegistration user) {
+    	
+       return patientRegistrationService.getPatientLogindetails(user.getEmail());
+    }
+    
     @PostMapping("/loginvaliadtion")
     public boolean findLogin(@RequestBody Login login){
     	System.out.println(login.getUserId());

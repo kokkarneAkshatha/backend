@@ -58,4 +58,10 @@ public class DoctorRegistrationServiceImpl implements DoctorRegistrationService 
 		return null;
 	}
 
+	@Override
+	public List<DoctorRegistration> getDoctorSchedule(String branch, String specialist) {
+		// TODO Auto-generated method stub
+		return doctorRegistrationrepository.findByBranchContainsAndSpecialistContainsAllIgnoreCase(branch, specialist);
+	}
+
 }

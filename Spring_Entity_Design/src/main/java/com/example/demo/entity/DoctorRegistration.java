@@ -57,11 +57,16 @@ public class DoctorRegistration {
 	@Column(name = "fee")
 	private long fee;
 	
-	@JsonIgnore
-	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH,
-			CascadeType.REFRESH })
-	@JoinTable(name = "Appiontment_schedule", joinColumns = @JoinColumn(name = "doctor_id"), inverseJoinColumns = @JoinColumn(name = "schedule_id"))
-	private List<DoctorSchedule> doctorSchedule;
+	/*
+	 * @JsonIgnore
+	 * 
+	 * @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST,
+	 * CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH })
+	 * 
+	 * @JoinTable(name = "Appiontment_schedule", joinColumns = @JoinColumn(name =
+	 * "doctor_id"), inverseJoinColumns = @JoinColumn(name = "schedule_id")) private
+	 * List<DoctorSchedule> doctorSchedule;
+	 */
 	/*
 	 * @Column(name = "photo") private Blob photo;
 	 */
