@@ -24,6 +24,12 @@ UserRepository userRepository;
 		super();
 		this.javaMailSender = javaMailSender;
 	}
+	public List<User> getall(){
+		return userRepository.findAll();
+	}
+	public User findbyemail(String email) {
+		return userRepository.findByEmail(email);
+	}
 	
 	public void Sendnotification(User theuser) 
 	{

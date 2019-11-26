@@ -1,4 +1,5 @@
 package com.example.demo.controller;
+import java.util.List;
 import java.util.Random;
 
 import javax.validation.Valid;
@@ -22,11 +23,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+
 import com.example.demo.entity.User;
 import com.example.demo.service.NotificationService;
 
 
-@Controller
+@RestController
 public class OtpController 
 {
 	private JavaMailSender javaMailSender;
@@ -34,25 +36,34 @@ public class OtpController
 		super();
 		this.javaMailSender = javaMailSender;
 	}
-	private Logger logger = LoggerFactory.getLogger(OtpController.class);
+	//private Logger logger = LoggerFactory.getLogger(OtpController.class);
 	
 	@Autowired
 	private NotificationService notificationService;
 	
-	@RequestMapping("/signup")
-	public String signup()
+	
+	@GetMapping("/otp")
+	public List<User> findall()
 	{
-		return "Please sign up for our service";
+		return notificationService.getall();
 	}
+	 @PostMapping("/findbyemail")
+	    public User findLogin(@RequestBody User user) {
+	    	
+	       return notificationService.findbyemail( user.getEmail());
+	    }
+	    
+	
+	/*
+	 * @RequestMapping("/signup") public String signup() { return
+	 * "Please sign up for our service"; }
+	 */
 
-	@RequestMapping("/")
-	public String home(Model theModel)
-	{
-		User theUser=new User();
-		theModel.addAttribute("employee",theUser);
-		return "form1";
-	}
-	@RequestMapping(value="/otp", method=RequestMethod.POST)
+	/*
+	 * @RequestMapping("/") public void home(Model theModel) { User theUser=new
+	 * User(); theModel.addAttribute("employee",theUser); //return "form1"; }
+	 */
+	@PostMapping("/otp")
 	public void signupSuccess(@RequestBody  User theuser )
 	{
 	
@@ -63,19 +74,18 @@ public class OtpController
 		//return "form";
 	}
 	
-	@RequestMapping(value="/validate", method=RequestMethod.POST)
-	public void  validate(@RequestBody  User theuser )
-	{
-		
-		
-			try {
-				notificationService.Validate(theuser);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-			
-		
-	}
+	/*
+	 * @RequestMapping(value="/validate", method=RequestMethod.POST) public void
+	 * validate(@RequestBody User theuser ) {
+	 * 
+	 * 
+	 * 
+	 * notificationService.Validate(theuser);
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * }
+	 */
 	}
