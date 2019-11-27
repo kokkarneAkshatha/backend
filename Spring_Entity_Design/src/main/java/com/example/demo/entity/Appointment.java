@@ -39,7 +39,7 @@ public class Appointment {
 	@Column(name = "date")
 	private Date date;
 	@Column(name = "slot")
-	private Time slot;
+	private String slot;
 	
 	@Column(name = "isfeepaid")
 	private boolean isfeepaid;
@@ -55,8 +55,8 @@ public class Appointment {
 	
 	@OneToOne(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH,
 			CascadeType.REFRESH })
-	@JoinColumn(name = "schedule_id")
-	private DoctorSchedule doctorSchedule;
+	@JoinColumn(name = "doctor_id")
+	private DoctorRegistration doctorregistration;
 	
 
 }
