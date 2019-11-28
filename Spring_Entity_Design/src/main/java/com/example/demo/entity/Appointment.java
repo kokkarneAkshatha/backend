@@ -4,6 +4,7 @@ import java.sql.Blob;
 import java.sql.Time;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -17,12 +18,17 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Data
 @Entity
@@ -31,6 +37,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Setter
 @Getter
+
 public class Appointment {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,6 +56,10 @@ public class Appointment {
 			CascadeType.REFRESH })
 	@JoinColumn(name = "patient_id")
 	private PatientRegistration patientregistration;
+	/*
+	 * @JsonCreator public patientRegistration (@JsonProperty("") Integer flight_id
+	 * ) { this.flight_id = flight_id; }
+	 */
 
 	
 
@@ -57,6 +68,16 @@ public class Appointment {
 			CascadeType.REFRESH })
 	@JoinColumn(name = "doctor_id")
 	private DoctorRegistration doctorregistration;
+
+
+
+
+	@Override
+	public String toString() {
+		return "Appointment [id=" + id + ", date=" + date + ", slot=" + slot + ", isfeepaid=" + isfeepaid
+				+ ", patientregistration=" + patientregistration + ", doctorregistration=" + doctorregistration + "]";
+	}
+	
 	
 
 }
