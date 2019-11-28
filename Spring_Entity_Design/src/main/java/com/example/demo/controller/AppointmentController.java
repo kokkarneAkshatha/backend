@@ -36,10 +36,10 @@ public class AppointmentController {
     @PostMapping("/appointment")
     public Appointment create(@RequestBody Appointmodel appointment){
     	PatientRegistration patientregistraion=patientRegistrationService.getPatientbyuserid(appointment.getPatient_id());
-    	Optional<DoctorRegistration> doctorregistration=doctorRegistrationService.getDoctorRegistrationById(appointment.getDoctor_id());
+    	DoctorRegistration doctorregistration=doctorRegistrationService.findbydoctorid(appointment.getDoctor_id());
     	Appointment app=new Appointment();
     	app.setPatientregistration(patientregistraion);
-    	//app.setDoctorregistration(doctorregistration);
+    	app.setDoctorregistration(doctorregistration);
     	app.setDate(appointment.getDate());
     	app.setSlot(appointment.getSlot());
     	System.out.println(app);
@@ -65,4 +65,24 @@ public class AppointmentController {
     public List<Appointment> findAll(){
         return appointmentService.getAppointments();
     }
+    @PostMapping("/find")
+    public boolean findbydoctorandslot(@RequestBody Appointmodel appointment) {
+    	DoctorRegistration doctorregistration=doctorRegistrationService.findbydoctorid(appointment.getDoctor_id());
+
+    	Appointment app=appointmentService.findbydoctorandslot(doctorregistration,appointment.getSlot(),appointment.getDate());
+    	System.out.println(doctorregistration);
+    	System.out.println(app);
+    	boolean result;
+    	if(app!=null) {
+    		result=true;
+    	}
+    	else {
+    		result=false;
+    	}
+    	return result;
+    	
+    	
+    }
+    	
+    
 }

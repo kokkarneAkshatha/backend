@@ -35,10 +35,15 @@ import lombok.ToString;
 @Table(name = "appointment")
 @AllArgsConstructor
 @NoArgsConstructor
+
 @Setter
 @Getter
 
+
 public class Appointment {
+	
+
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
@@ -51,7 +56,7 @@ public class Appointment {
 	@Column(name = "isfeepaid")
 	private boolean isfeepaid;
 	
-	
+	@JsonIgnore
 	@OneToOne(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH,
 			CascadeType.REFRESH })
 	@JoinColumn(name = "patient_id")
@@ -69,8 +74,8 @@ public class Appointment {
 	@JoinColumn(name = "doctor_id")
 	private DoctorRegistration doctorregistration;
 
-
-
+	
+	
 
 	@Override
 	public String toString() {
