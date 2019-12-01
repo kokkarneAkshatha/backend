@@ -25,18 +25,16 @@ public class PatientRegistrationController {
     @Autowired
     private PatientRegistrationService patientRegistrationService;
     
-    private String hashPassword(String plainTextPassword){
-		return BCrypt.hashpw(plainTextPassword, BCrypt.gensalt());
-	}
+  
     @PostMapping("/patientregister")
     public PatientRegistration create(@RequestBody PatientRegistration patient){
-    	
-    		patient.setPassword(hashPassword(patient.getPassword()));
-    		
     
-    	
-    	
         return patientRegistrationService.savePatientRegistration(patient);
+    }
+    @PostMapping("/findbyuserid")
+    public PatientRegistration findbyid(@RequestBody PatientRegistration login){
+    
+        return patientRegistrationService.getPatientbyuserid(login.getUserId());
     }
 
     @GetMapping(path = {"/patientregister/{id}"})
@@ -64,12 +62,14 @@ public class PatientRegistrationController {
        return patientRegistrationService.getPatientLogindetails(user.getEmail());
     }
     
-    @PostMapping("/loginvaliadtion")
-    public boolean findLogin(@RequestBody Login login){
-    	System.out.println(login.getUserId());
-    	System.out.println(login.getPassword());
-        boolean s= patientRegistrationService.checkPass(login.getUserId(), login.getPassword());
-        System.out.println(s);
-        return s;
+
+    @PostMapping("/patientregister/validation")
+    public boolean findLogin(@RequestBody Login user1){
+  	  String email = user1.getUserId();
+  	  String password = user1.getPassword();
+  	  
+  	  System.out.println(email);
+  	  System.out.println(password);
+     	return patientRegistrationService.checkPass(email, password);
     }
 }

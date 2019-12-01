@@ -42,6 +42,7 @@ public class AppointmentController {
     	app.setDoctorregistration(doctorregistration);
     	app.setDate(appointment.getDate());
     	app.setSlot(appointment.getSlot());
+    	app.setIsfeepaid(appointment.isIsfeepaid());
     	System.out.println(app);
         return appointmentService.saveAppointment(app);
     }
@@ -70,7 +71,7 @@ public class AppointmentController {
     	DoctorRegistration doctorregistration=doctorRegistrationService.findbydoctorid(appointment.getDoctor_id());
 
     	Appointment app=appointmentService.findbydoctorandslot(doctorregistration,appointment.getSlot(),appointment.getDate());
-    	System.out.println(doctorregistration);
+    	System.out.println(app);
     	System.out.println(app);
     	boolean result;
     	if(app!=null) {
