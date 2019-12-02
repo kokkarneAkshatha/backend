@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,12 +33,24 @@ public class AppointmentController {
     private PatientRegistrationService patientRegistrationService;
     @Autowired
     private DoctorRegistrationService doctorRegistrationService;
+    @Autowired
+    private JavaMailSender javaMailSender;
 
+   
 
-    @PostMapping("/appointment")
+	@PostMapping("/appointment")
     public Appointment create(@RequestBody Appointmodel appointment){
     	PatientRegistration patientregistraion=patientRegistrationService.getPatientbyuserid(appointment.getPatient_id());
     	DoctorRegistration doctorregistration=doctorRegistrationService.findbydoctorid(appointment.getDoctor_id());
+    	
+    	
+ 
+    	
+		SimpleMailMessage mail = new SimpleMailMessage();
+	System.out.println(patientregistraion.getEmail());
+	
+    	System.out.println("sent");
+    	
     	Appointment app=new Appointment();
     	app.setPatientregistration(patientregistraion);
     	app.setDoctorregistration(doctorregistration);
@@ -44,22 +58,30 @@ public class AppointmentController {
     	app.setSlot(appointment.getSlot());
     	app.setIsfeepaid(appointment.isIsfeepaid());
     	System.out.println(app);
+    	mail.setTo(patientregistraion.getEmail());
+    	
+		mail.setSubject("Appointment details");
+		mail.setText("hi"+patientregistraion.getFirstName()+"\ndate"+app.getDate()+"\ntime:"+app.getSlot()+"Kindly visit");
+
+		javaMailSender.send(mail);
         return appointmentService.saveAppointment(app);
     }
+    
 
     @GetMapping(path = {"/appointment/{id}"})
     public Optional<Appointment> findOne(@PathVariable("id") int id){
         return appointmentService.getAppointmentById(id);
     }
 
-    @PutMapping("/appointment")
-    public Appointment update(@RequestBody Appointment appointment){
+    @PutMapping("/appointment/{id}")
+    public Appointment update(@PathVariable("id") String id, @RequestBody Appointment appointment){
         return appointmentService.updatepatientregistration(appointment);
     }
 
     @DeleteMapping(path ={"/appointment/{id}"})
     public void delete(@PathVariable("id") int id) {
          appointmentService.deleteAppointmentById(id);
+       
     }
 
     @GetMapping("/appointment")
@@ -82,6 +104,16 @@ public class AppointmentController {
     	}
     	return result;
     	
+    	
+    }
+    @PostMapping("/appointment_details")
+    public List<Appointment> getdetails(@RequestBody Appointmodel appointment) {
+    	PatientRegistration patientregistraion=patientRegistrationService.getPatientbyuserid(appointment.getPatient_id());
+    	System.out.println(patientregistraion);
+    	System.out.println("hello");
+    	  List<Appointment> app=appointmentService.findbypatient(patientregistraion);
+    	System.out.println(app);
+    	  return app;
     	
     }
     	

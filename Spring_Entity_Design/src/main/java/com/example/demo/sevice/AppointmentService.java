@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import com.example.demo.entity.Appointment;
 import com.example.demo.entity.DoctorRegistration;
+import com.example.demo.entity.PatientRegistration;
 
 public interface AppointmentService {
 	
@@ -21,5 +22,6 @@ public interface AppointmentService {
 
 
 	Appointment findbydoctorandslot(DoctorRegistration doctor, String slot,Date date);
+	List<Appointment> findbypatient(PatientRegistration patient);
 
 }

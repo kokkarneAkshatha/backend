@@ -73,9 +73,16 @@ public class PatientRegistrationServiceImpl implements PatientRegistrationServic
 	}
 
 	@Override
-	public PatientRegistration updatepatientregistration(PatientRegistration patient) {
+	public PatientRegistration updatepatientregistration(String id, PatientRegistration patient) {
 		// TODO Auto-generated method stub
-		return null;
+		PatientRegistration patientupdate=getPatientbyuserid(id);
+		patientupdate.setFirstName(patient.getFirstName());
+		patientupdate.setEmail(patient.getEmail());
+		patientupdate.setCity(patient.getCity());
+		patientupdate.setDateofbirth(patient.getDateofbirth());
+		patientupdate.setPhone(patient.getPhone());
+		return   patientRegistrationrepository.save(patientupdate);
+		
 	}
 
 	@Override

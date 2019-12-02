@@ -15,7 +15,7 @@ public interface PatientRegistrationService {
 
 	public void deletePatientRegistrationById(int theId);
 
-	public PatientRegistration updatepatientregistration(PatientRegistration patient);
+	public PatientRegistration updatepatientregistration(String id, PatientRegistration patient);
 	
 	public PatientRegistration getPatientLogindetails(String userid);
 	public boolean checkPass(String userid, String password) ;

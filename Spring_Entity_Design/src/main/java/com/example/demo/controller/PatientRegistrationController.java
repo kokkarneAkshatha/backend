@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,7 +19,8 @@ import com.example.demo.entity.Login;
 import com.example.demo.entity.PatientRegistration;
 import com.example.demo.sevice.PatientRegistrationService;
 
-@RestController
+
+@RestController @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/api")
 public class PatientRegistrationController {
 
@@ -42,9 +44,11 @@ public class PatientRegistrationController {
         return patientRegistrationService.getPatientRegistrationById(id);
     }
 
-    @PutMapping("/patientregister")
-    public PatientRegistration update(@RequestBody PatientRegistration user){
-        return patientRegistrationService.updatepatientregistration(user);
+    @PutMapping("/patientregister/{id}")
+    public PatientRegistration update(@PathVariable("id") String id, @RequestBody PatientRegistration user){
+    
+        return patientRegistrationService.updatepatientregistration(id,user);
+        
     }
 
     @DeleteMapping(path ={"/patientregister/{id}"})

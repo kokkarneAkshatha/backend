@@ -68,6 +68,12 @@ public class AppointmentServiceImpl implements AppointmentService {
 		return Appointmentrepository.findBySlotAndDateAndDoctorregistration(slot,date, doctor);
 	}
 
+	@Override
+	public List<Appointment> findbypatient(PatientRegistration patient) {
+		// TODO Auto-generated method stub
+		return Appointmentrepository.findByPatientregistration(patient);
+	}
+
 	
 
 }
