@@ -48,9 +48,9 @@ public class FeedbackServiceImpl implements FeedbackService {
 	        Feedback feedback = feedbackRepository.findById(feedbackId)
 	        .orElseThrow(() -> new ResourceNotFoundException("Feedback not found for this id :: " + feedbackId));
 
-	        	feedback.setUserMail(feedbackDetails.getUserMail());
+	        	feedback.setExperience(feedbackDetails.getExperience());
 	        	feedback.setFeedbackMessage(feedbackDetails.getFeedbackMessage());
-	        	feedback.setRate(feedbackDetails.getRate());
+	        	
 	        Feedback updatedFeedback = feedbackRepository.save(feedback);
 	        return ResponseEntity.ok(updatedFeedback);
 	    }

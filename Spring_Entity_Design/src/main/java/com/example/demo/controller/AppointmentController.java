@@ -1,5 +1,8 @@
 package com.example.demo.controller;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,7 +39,32 @@ public class AppointmentController {
     @Autowired
     private JavaMailSender javaMailSender;
 
+    @PostMapping("/appointments")
+    public String notavailable(@RequestBody Appointmodel appointment){
+    	System.out.println(appointment.getDoctor_id());
+    	DoctorRegistration doctorregistration=doctorRegistrationService.findbydoctorid(appointment.getDoctor_id());
+    
+    	List<Appointment> app=appointmentService.findbydoctoranddate(doctorregistration,appointment.getDate() );
+    	System.out.println(doctorregistration);
+    	System.out.println("helloo");
+    	System.out.println(app);
+    	for(Appointment temp: app){
+    		System.out.println("hel"+temp.getPatientregistration());
+    		
+    		SimpleMailMessage mail = new SimpleMailMessage();
+    		mail.setTo(temp.getPatientregistration().getEmail());
+        	
+    		mail.setSubject("Appointment details");
+    		mail.setText("Hi "+temp.getPatientregistration().getFirstName()+"\n date"+temp.getDate()+"\n time:"+temp.getSlot()+" canceled");
+
+    		javaMailSender.send(mail);
+    		System.out.println("app:"+temp.getId());
+    		appointmentService.deleteAppointmentById(temp.getId());
+    	}
+    	
+    	return "hello" ;
    
+    }
 
 	@PostMapping("/appointment")
     public Appointment create(@RequestBody Appointmodel appointment){
@@ -93,7 +121,7 @@ public class AppointmentController {
     	DoctorRegistration doctorregistration=doctorRegistrationService.findbydoctorid(appointment.getDoctor_id());
 
     	Appointment app=appointmentService.findbydoctorandslot(doctorregistration,appointment.getSlot(),appointment.getDate());
-    	System.out.println(app);
+    	System.out.println("date"+appointment.getDate());
     	System.out.println(app);
     	boolean result;
     	if(app!=null) {
